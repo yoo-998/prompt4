@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10-Second Clicker Game</title>
+    <style>
+        body {
+            background-image: url("강아지.png");
+            background-size: 10%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        #cat {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+        #score {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 24px;
+        }
+        #timer {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+        }
+        #gameOver {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <img src="고양이.png" id="cat" onclick="incrementScore()">
+    <div id="score">Score: <span id="scoreValue">0</span></div>
+    <div id="timer">Time left: <span id="timeLeft">10</span> seconds</div>
+    <div id="gameOver">게임 종료! 최종 점수: <span id="finalScore">0</span></div>
+
+    <script>
+        var score = 0;
+        var timeLeft = 10; // 초기 시간 (초)
+        var timerInterval;
+
+        function startTimer() {
+            timerInterval = setInterval(function() {
+                timeLeft--;
+                document.getElementById('timeLeft').textContent = timeLeft;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endGame();
+                }
+            }, 1000); // 1초마다 타이머 감소
+        }
+
+        function incrementScore() {
+            score++; // 클릭할 때마다 점수 증가
+            document.getElementById('scoreValue').textContent = score;
+
+            if (!timerInterval) {
+                startTimer(); // 타이머 시작 (첫 클릭 시)
+            }
+        }
+
+        function endGame() {
+            document.getElementById('gameOver').style.display = 'block';
+            document.getElementById('finalScore').textContent = score;
+            document.getElementById('cat').style.display = 'none'; // 고양이 이미지 숨기기
+        }
+    </script>
+</body>
+</html>
